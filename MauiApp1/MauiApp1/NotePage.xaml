@@ -1,0 +1,23 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NotebookApp.NotePage"
+             BackgroundColor="Black">
+
+    <StackLayout Padding="10" Spacing="20">
+        <Entry x:Name="titleEntry" Placeholder="Название" IsEnabled="True" PlaceholderColor="Gray" />
+        <Editor x:Name="contentEditor" Placeholder="Текст заметки" IsEnabled="True" PlaceholderColor="Gray" />
+        <DatePicker x:Name="datePicker" IsEnabled="True" />
+
+        <Button x:Name="editButton" Text="Редактировать" Clicked="OnEditClicked" IsVisible="False" 
+                CornerRadius="50" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+
+        <Button x:Name="saveButton" Text="Сохранить" Clicked="OnSaveClicked" IsVisible="True" 
+                CornerRadius="50" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+
+        <Button x:Name="deleteButton" Text="Удалить" Clicked="OnDeleteClicked" IsVisible="False" 
+                CornerRadius="50" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+
+        <Button Text="Отмена" Clicked="OnCancelClicked" 
+                CornerRadius="50" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+    </StackLayout>
+</ContentPage>

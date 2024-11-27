@@ -1,0 +1,25 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NotebookApp.MainPage"
+             BackgroundColor="Black">
+
+    <StackLayout Padding="10" Spacing="30" VerticalOptions="FillAndExpand">
+
+        <SearchBar x:Name="searchBar" Placeholder="Поиск заметок" TextChanged="OnSearchTextChanged" />
+
+        <ListView x:Name="notesListView" ItemTapped="OnNoteTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Title}" Detail="{Binding DateTime, StringFormat='{}{0:yyyy-MM-dd}'}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Text="Создать заметку" 
+                Clicked="OnCreateNoteClicked" 
+                HeightRequest="75" 
+                CornerRadius="25" 
+                HorizontalOptions="FillAndExpand" 
+                VerticalOptions="End" />
+    </StackLayout>
+</ContentPage>
