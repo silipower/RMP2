@@ -9,7 +9,7 @@ namespace NotebookApp
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime DateTime { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime ModifiedDate { get; set; } = DateTime.Now;
     }
 }

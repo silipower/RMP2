@@ -4,9 +4,11 @@
              BackgroundColor="Black">
 
     <StackLayout Padding="10" Spacing="20">
-        <Entry x:Name="titleEntry" Placeholder="Название" IsEnabled="True" PlaceholderColor="Gray" />
-        <Editor x:Name="contentEditor" Placeholder="Текст заметки" IsEnabled="True" PlaceholderColor="Gray" />
-        <DatePicker x:Name="datePicker" IsEnabled="True" />
+        <Entry x:Name="titleEntry" Placeholder="Название" PlaceholderColor="Gray" />
+        <Editor x:Name="contentEditor" Placeholder="Текст заметки" PlaceholderColor="Gray" />
+
+        <DatePicker x:Name="datePicker" DateSelected="OnDateSelected" />
+        <TimePicker x:Name="timePicker" IsVisible="False" />
 
         <Button x:Name="editButton" Text="Редактировать" Clicked="OnEditClicked" IsVisible="False" 
                 CornerRadius="50" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />

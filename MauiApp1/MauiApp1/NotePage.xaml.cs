@@ -1,3 +1,5 @@
+using System;
+
 namespace NotebookApp
 {
     public partial class NotePage : ContentPage
@@ -15,11 +17,13 @@ namespace NotebookApp
             {
                 titleEntry.Text = note.Title;
                 contentEditor.Text = note.Content;
-                datePicker.Date = note.DateTime;
+                datePicker.Date = note.DateTime.Date;
+                timePicker.Time = note.DateTime.TimeOfDay;
 
                 titleEntry.IsEnabled = false;
                 contentEditor.IsEnabled = false;
                 datePicker.IsEnabled = false;
+                timePicker.IsEnabled = false;
 
                 editButton.IsVisible = true;
                 deleteButton.IsVisible = true;
@@ -30,10 +34,26 @@ namespace NotebookApp
                 titleEntry.IsEnabled = true;
                 contentEditor.IsEnabled = true;
                 datePicker.IsEnabled = true;
+                timePicker.IsEnabled = false; // Скрыт до выбора даты
 
                 editButton.IsVisible = false;
                 deleteButton.IsVisible = false;
                 saveButton.IsVisible = true;
+            }
+        }
+
+        private void OnDateSelected(object sender, DateChangedEventArgs e)
+        {
+            if (e.NewDate != DateTime.Today)
+            {
+                timePicker.IsVisible = true;
+                timePicker.IsEnabled = true;
+            }
+            else
+            {
+                timePicker.Time = DateTime.Now.TimeOfDay;
+                timePicker.IsVisible = false;
+                timePicker.IsEnabled = false;
             }
         }
 
@@ -42,6 +62,12 @@ namespace NotebookApp
             titleEntry.IsEnabled = true;
             contentEditor.IsEnabled = true;
             datePicker.IsEnabled = true;
+
+            if (datePicker.Date != DateTime.Today)
+            {
+                timePicker.IsVisible = true;
+                timePicker.IsEnabled = true;
+            }
 
             editButton.IsVisible = false;
             saveButton.IsVisible = true;
@@ -59,13 +85,16 @@ namespace NotebookApp
             {
                 note = new Note
                 {
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTime.Now
                 };
             }
 
             note.Title = titleEntry.Text;
             note.Content = contentEditor.Text;
-            note.DateTime = datePicker.Date;
+
+            DateTime selectedDate = datePicker.Date;
+            TimeSpan selectedTime = timePicker.IsVisible ? timePicker.Time : DateTime.Now.TimeOfDay;
+            note.DateTime = selectedDate.Add(selectedTime);
             note.ModifiedDate = DateTime.Now;
 
             if (mainPage != null)
@@ -78,7 +107,7 @@ namespace NotebookApp
                 else
                 {
                     await App.Database.SaveNoteAsync(note);
-                    mainPage.UpdateNote(note, mainPage.Notes.IndexOf(note));
+                    mainPage.UpdateNote(note);
                 }
             }
 
@@ -90,11 +119,7 @@ namespace NotebookApp
             if (note != null)
             {
                 await App.Database.DeleteNoteAsync(note);
-
-                if (mainPage != null)
-                {
-                    mainPage.DeleteNote(note);
-                }
+                mainPage?.DeleteNote(note);
             }
 
             await Navigation.PopAsync();
@@ -103,12 +128,6 @@ namespace NotebookApp
         private async void OnCancelClicked(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            mainPage.NotesListView.SelectedItem = null;
         }
     }
 }

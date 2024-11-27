@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/N5UyO3at7ikCOwWybT99BEiC2rvQqvT8Yke+8AJFBC+UkRiFzha8sVsEeC1Ot6x1rMb1sM6htjRyNdfoW0jlA==",
+  "dgSpecHash": "EObx40OsEutBY3pXWIGj1qUihlSWpE1y+15azvHgMWQbwAkXl4dLhvh5gNn9gz22YDY1X/8NfhycAkB0URd/1A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\igrom\\source\\repos\\rmp\\MauiApp1\\MauiApp1\\NotebookApp.csproj",
+  "projectFilePath": "C:\\Users\\igrom\\source\\repos\\RMP2\\MauiApp1\\MauiApp1\\NotebookApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\igrom\\.nuget\\packages\\googlegson\\2.9.0.1\\googlegson.2.9.0.1.nupkg.sha512",
     "C:\\Users\\igrom\\.nuget\\packages\\microsoft.extensions.configuration\\6.0.1\\microsoft.extensions.configuration.6.0.1.nupkg.sha512",

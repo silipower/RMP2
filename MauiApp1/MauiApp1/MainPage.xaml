@@ -3,14 +3,33 @@
              x:Class="NotebookApp.MainPage"
              BackgroundColor="Black">
 
-    <StackLayout Padding="10" Spacing="30" VerticalOptions="FillAndExpand">
+    <StackLayout Padding="10" Spacing="20" VerticalOptions="FillAndExpand">
 
         <SearchBar x:Name="searchBar" Placeholder="Поиск заметок" TextChanged="OnSearchTextChanged" />
 
         <ListView x:Name="notesListView" ItemTapped="OnNoteTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Title}" Detail="{Binding DateTime, StringFormat='{}{0:yyyy-MM-dd}'}" />
+                    <ViewCell>
+                        <Grid Padding="10" ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Text="{Binding Title}" 
+                                   FontSize="Medium" 
+                                   TextColor="White" 
+                                   Grid.Column="0"
+                                   VerticalTextAlignment="Center" />
+
+                            <Label Text="{Binding ModifiedDate, StringFormat='{0:dd.MM.yyyy HH:mm}'}" 
+                                   FontSize="Small" 
+                                   TextColor="Gray" 
+                                   Grid.Column="1"
+                                   VerticalTextAlignment="Center" />
+                        </Grid>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

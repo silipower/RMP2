@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\igrom\\source\\repos\\rmp\\MauiApp1\\MauiApp1\\NotebookApp.csproj": {}
+    "C:\\Users\\igrom\\source\\repos\\RMP2\\MauiApp1\\MauiApp1\\NotebookApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\igrom\\source\\repos\\rmp\\MauiApp1\\MauiApp1\\NotebookApp.csproj": {
+    "C:\\Users\\igrom\\source\\repos\\RMP2\\MauiApp1\\MauiApp1\\NotebookApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\igrom\\source\\repos\\rmp\\MauiApp1\\MauiApp1\\NotebookApp.csproj",
+        "projectUniqueName": "C:\\Users\\igrom\\source\\repos\\RMP2\\MauiApp1\\MauiApp1\\NotebookApp.csproj",
         "projectName": "NotebookApp",
-        "projectPath": "C:\\Users\\igrom\\source\\repos\\rmp\\MauiApp1\\MauiApp1\\NotebookApp.csproj",
+        "projectPath": "C:\\Users\\igrom\\source\\repos\\RMP2\\MauiApp1\\MauiApp1\\NotebookApp.csproj",
         "packagesPath": "C:\\Users\\igrom\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\igrom\\source\\repos\\rmp\\MauiApp1\\MauiApp1\\obj\\",
+        "outputPath": "C:\\Users\\igrom\\source\\repos\\RMP2\\MauiApp1\\MauiApp1\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [

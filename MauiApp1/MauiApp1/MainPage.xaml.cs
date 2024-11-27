@@ -1,22 +1,19 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace NotebookApp
 {
     public partial class MainPage : ContentPage
     {
-        public ObservableCollection<Note> Notes { get; set; }
-        private ObservableCollection<Note> filteredNotes;
+        public ObservableCollection<Note> Notes { get; set; } = new ObservableCollection<Note>();
+        private ObservableCollection<Note> filteredNotes = new ObservableCollection<Note>();
 
         public MainPage()
         {
             InitializeComponent();
-            Notes = new ObservableCollection<Note>();
-            filteredNotes = new ObservableCollection<Note>(Notes);
             notesListView.ItemsSource = filteredNotes;
             LoadNotes();
         }
-
-        public ListView NotesListView => notesListView;
 
         private async void LoadNotes()
         {
@@ -26,29 +23,53 @@ namespace NotebookApp
             {
                 Notes.Add(note);
             }
-            filteredNotes = new ObservableCollection<Note>(Notes);
-            notesListView.ItemsSource = filteredNotes;
+            UpdateFilteredNotes();
+        }
+
+        private void UpdateFilteredNotes(string filter = "")
+        {
+            filteredNotes.Clear();
+            var filtered = string.IsNullOrWhiteSpace(filter)
+                ? Notes
+                : Notes.Where(note => note.Title.ToLower().Contains(filter.ToLower()));
+
+            foreach (var note in filtered)
+            {
+                filteredNotes.Add(note);
+            }
         }
 
         public async void AddNote(Note note)
         {
+            note.CreatedDate = DateTime.Now;
+            note.ModifiedDate = note.CreatedDate;
+
             await App.Database.SaveNoteAsync(note);
             Notes.Add(note);
-            filteredNotes.Add(note);
+            UpdateFilteredNotes();
         }
 
-        public async void UpdateNote(Note note, int index)
+        public async void UpdateNote(Note note)
         {
+            note.ModifiedDate = DateTime.Now;
+
             await App.Database.SaveNoteAsync(note);
-            Notes[index] = note;
-            filteredNotes[index] = note;
+
+            // Обновляем объект заметки в коллекции
+            var existingNote = Notes.FirstOrDefault(n => n.Id == note.Id);
+            if (existingNote != null)
+            {
+                int index = Notes.IndexOf(existingNote);
+                Notes[index] = note; // Заменяем старую версию заметки новой
+            }
+            UpdateFilteredNotes();
         }
 
         public async void DeleteNote(Note note)
         {
             await App.Database.DeleteNoteAsync(note);
             Notes.Remove(note);
-            filteredNotes.Remove(note);
+            UpdateFilteredNotes();
         }
 
         private void OnCreateNoteClicked(object sender, EventArgs e)
@@ -62,19 +83,14 @@ namespace NotebookApp
             {
                 var note = e.Item as Note;
                 await Navigation.PushAsync(new NotePage(note, this));
-                NotesListView.SelectedItem = null;
+                notesListView.SelectedItem = null;
             }
         }
 
         private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
         {
-            string searchText = e.NewTextValue.ToLower();
-            filteredNotes.Clear();
-            var filtered = Notes.Where(note => note.Title.ToLower().Contains(searchText)).ToList();
-            foreach (var note in filtered)
-            {
-                filteredNotes.Add(note);
-            }
+            string searchText = e.NewTextValue;
+            UpdateFilteredNotes(searchText);
         }
     }
 }
