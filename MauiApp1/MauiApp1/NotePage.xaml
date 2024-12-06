@@ -1,25 +1,68 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NotebookApp.NotePage"
-             BackgroundColor="Black">
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <StackLayout Padding="10" Spacing="20">
-        <Entry x:Name="titleEntry" Placeholder="Название" PlaceholderColor="Gray" />
-        <Editor x:Name="contentEditor" Placeholder="Текст заметки" PlaceholderColor="Gray" />
+        <Entry x:Name="titleEntry" 
+               Placeholder="Название" 
+               PlaceholderColor="DarkGray"
+               FontFamily="{DynamicResource FontFamily}"
+               FontSize="{DynamicResource FontSize}"
+               TextColor="{DynamicResource TextColor}" />
 
-        <DatePicker x:Name="datePicker" DateSelected="OnDateSelected" />
-        <TimePicker x:Name="timePicker" IsVisible="False" />
+        <Editor x:Name="contentEditor" 
+                Placeholder="Текст заметки" 
+                PlaceholderColor="DarkGray"
+                FontFamily="{DynamicResource FontFamily}"
+                FontSize="{DynamicResource FontSize}"
+                TextColor="{DynamicResource TextColor}" />
 
-        <Button x:Name="editButton" Text="Редактировать" Clicked="OnEditClicked" IsVisible="False" 
-                CornerRadius="50" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        <DatePicker x:Name="datePicker" DateSelected="OnDateSelected" TextColor="{DynamicResource TextColor}" FontFamily="{DynamicResource FontFamily}"
+                FontSize="{DynamicResource FontSize}"/>
+        <TimePicker x:Name="timePicker" IsVisible="True" TextColor="{DynamicResource TextColor}" FontFamily="{DynamicResource FontFamily}"
+                FontSize="{DynamicResource FontSize}"/>
 
-        <Button x:Name="saveButton" Text="Сохранить" Clicked="OnSaveClicked" IsVisible="True" 
-                CornerRadius="50" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        <Button x:Name="editButton" 
+                Text="Редактировать" 
+                Clicked="OnEditClicked" 
+                IsVisible="False" 
+                CornerRadius="50" 
+                HorizontalOptions="FillAndExpand" 
+                VerticalOptions="Center" 
+                TextColor="White" 
+                FontFamily="{DynamicResource FontFamily}"
+                FontSize="{DynamicResource FontSize}"/>
 
-        <Button x:Name="deleteButton" Text="Удалить" Clicked="OnDeleteClicked" IsVisible="False" 
-                CornerRadius="50" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        <Button x:Name="saveButton" 
+                Text="Сохранить" 
+                Clicked="OnSaveClicked" 
+                IsVisible="True" 
+                CornerRadius="50" 
+                HorizontalOptions="FillAndExpand" 
+                VerticalOptions="Center" 
+                TextColor="White"
+                FontFamily="{DynamicResource FontFamily}"
+                FontSize="{DynamicResource FontSize}"/>
 
-        <Button Text="Отмена" Clicked="OnCancelClicked" 
-                CornerRadius="50" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        <Button x:Name="deleteButton" 
+                Text="Удалить" 
+                Clicked="OnDeleteClicked" 
+                IsVisible="False" 
+                CornerRadius="50" 
+                HorizontalOptions="FillAndExpand" 
+                VerticalOptions="Center" 
+                TextColor="White" 
+                FontFamily="{DynamicResource FontFamily}"
+                FontSize="{DynamicResource FontSize}"/>
+
+        <Button Text="Отмена" 
+                Clicked="OnCancelClicked" 
+                CornerRadius="50" 
+                HorizontalOptions="FillAndExpand" 
+                VerticalOptions="Center" 
+                TextColor="White" 
+                FontFamily="{DynamicResource FontFamily}"
+                FontSize="{DynamicResource FontSize}"/>
     </StackLayout>
 </ContentPage>

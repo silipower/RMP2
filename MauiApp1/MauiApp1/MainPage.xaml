@@ -1,44 +1,130 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NotebookApp.MainPage"
-             BackgroundColor="Black">
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
 
-    <StackLayout Padding="10" Spacing="20" VerticalOptions="FillAndExpand">
+    <Grid>
+        <StackLayout Padding="10" Spacing="20" VerticalOptions="FillAndExpand">
+            <SearchBar x:Name="searchBar" 
+                       Placeholder="Поиск заметок" 
+                       TextChanged="OnSearchTextChanged"
+                       BackgroundColor="{DynamicResource PageBackgroundColor}"
+                       TextColor="{DynamicResource TextColor}"
+                       PlaceholderColor="{DynamicResource SecondaryTextColor}" />
 
-        <SearchBar x:Name="searchBar" Placeholder="Поиск заметок" TextChanged="OnSearchTextChanged" />
+            <ListView x:Name="notesListView" ItemTapped="OnNoteTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="5" ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding Title}" FontSize="{DynamicResource FontSize}" FontFamily="{DynamicResource FontFamily}"  TextColor="{DynamicResource TextColor}" Grid.Column="0" />
+                                <Label Text="{Binding ModifiedDate, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontSize="{DynamicResource FontSizeSmall}" TextColor="Gray" Grid.Column="1" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
-        <ListView x:Name="notesListView" ItemTapped="OnNoteTapped">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid Padding="10" ColumnSpacing="10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+            <!-- Кнопки для создания заметки и настроек -->
+            <StackLayout Orientation="Horizontal" Spacing="10" VerticalOptions="End">
+                <Button x:Name="addButton"
+                        Text="Создать заметку" 
+                        Clicked="OnCreateNoteClicked" 
+                        HeightRequest="75" 
+                        CornerRadius="25" 
+                        HorizontalOptions="FillAndExpand" 
+                        VerticalOptions="End"
+                        FontFamily="{DynamicResource FontFamily}"
+                        FontSize="{DynamicResource FontSize}" 
+                        TextColor="White"/>
 
-                            <Label Text="{Binding Title}" 
-                                   FontSize="Medium" 
-                                   TextColor="White" 
-                                   Grid.Column="0"
-                                   VerticalTextAlignment="Center" />
+                <!-- Кнопка настроек -->
+                <Button x:Name="settingsButton"
+                        Text="⚙️"
+                        Clicked="OnSettingsClicked"
+                        HeightRequest="75"
+                        WidthRequest="75"
+                        CornerRadius="25"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center" />
+            </StackLayout>
+        </StackLayout>
 
-                            <Label Text="{Binding ModifiedDate, StringFormat='{0:dd.MM.yyyy HH:mm}'}" 
-                                   FontSize="Small" 
-                                   TextColor="Gray" 
-                                   Grid.Column="1"
-                                   VerticalTextAlignment="Center" />
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <!-- Всплывающее окно настроек -->
+        <Frame x:Name="settingsPopup" IsVisible="False" Padding="10" BackgroundColor="{DynamicResource PageBackgroundColor}" CornerRadius="10"
+       VerticalOptions="Center" HorizontalOptions="Center" BorderColor="{DynamicResource AccentColor}">
+            <StackLayout>
+                <Label Text="Настройки" FontSize="Large" TextColor="{DynamicResource TextColor}" HorizontalOptions="Center" />
 
-        <Button Text="Создать заметку" 
-                Clicked="OnCreateNoteClicked" 
-                HeightRequest="75" 
-                CornerRadius="25" 
-                HorizontalOptions="FillAndExpand" 
-                VerticalOptions="End" />
-    </StackLayout>
+                <Grid ColumnSpacing="10" RowSpacing="10">
+                    <!-- Первая строка: Дата -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="Дата:" TextColor="{DynamicResource TextColor}" VerticalOptions="Center" Grid.Row="0" Grid.Column="0" />
+                    <DatePicker x:Name="datePicker" TextColor="{DynamicResource TextColor}" Grid.Row="0" Grid.Column="1" />
+
+                    <!-- Вторая строка: Тема -->
+                    <Label Text="Тема:" TextColor="{DynamicResource TextColor}" VerticalOptions="Center" Grid.Row="1" Grid.Column="0" />
+                    <Picker x:Name="stylePicker" TextColor="{DynamicResource TextColor}" Grid.Row="1" Grid.Column="1">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Темный</x:String>
+                                <x:String>Светлый</x:String>
+                                <x:String>Контрастный</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                    <!-- Третья строка: Шрифт -->
+                    <Label Text="Шрифт:" TextColor="{DynamicResource TextColor}" VerticalOptions="Center" Grid.Row="2" Grid.Column="0" />
+                    <Picker x:Name="fontPicker" TextColor="{DynamicResource TextColor}" SelectedIndexChanged="OnFontChanged" Grid.Row="2" Grid.Column="1">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>OpenSans</x:String>
+                                <x:String>Caveat</x:String>
+                                <x:String>Oswald</x:String>
+                                <x:String>Pacifico</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                    <!-- Четвертая строка: Размер шрифта -->
+                    <Label Text="Размер шрифта:" TextColor="{DynamicResource TextColor}" VerticalOptions="Center" Grid.Row="3" Grid.Column="0" />
+                    <Picker x:Name="fontSizePicker" TextColor="{DynamicResource TextColor}" SelectedIndexChanged="OnFontSizeChanged" Grid.Row="3" Grid.Column="1">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>14</x:String>
+                                <x:String>16</x:String>
+                                <x:String>18</x:String>
+                                <x:String>20</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </Grid>
+
+                <!-- Кнопки в настройках -->
+                <StackLayout Orientation="Horizontal" HorizontalOptions="End" Spacing="10">
+                    <Button Text="Сохранить" Clicked="OnSaveSettingsClicked" />
+                    <Button Text="Закрыть" Clicked="OnCloseSettingsClicked" />
+                    <Button 
+                Text="Восстановить"
+                Clicked="OnRestoreDefaultStyleClicked"
+                HorizontalOptions="Center" />
+                </StackLayout>
+            </StackLayout>
+        </Frame>
+    </Grid>
 </ContentPage>

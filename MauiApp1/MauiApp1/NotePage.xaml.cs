@@ -6,12 +6,14 @@ namespace NotebookApp
     {
         private Note note;
         private MainPage mainPage;
+        private DateTime selectedDate;
 
-        public NotePage(Note note, MainPage mainPage)
+        public NotePage(Note note, DateTime selectedDate, MainPage mainPage)
         {
             InitializeComponent();
             this.note = note;
             this.mainPage = mainPage;
+            this.selectedDate = selectedDate;
 
             if (note != null)
             {
@@ -31,6 +33,8 @@ namespace NotebookApp
             }
             else
             {
+                datePicker.Date = selectedDate;  // Устанавливаем дату по умолчанию
+
                 titleEntry.IsEnabled = true;
                 contentEditor.IsEnabled = true;
                 datePicker.IsEnabled = true;
@@ -55,6 +59,7 @@ namespace NotebookApp
                 timePicker.IsVisible = false;
                 timePicker.IsEnabled = false;
             }
+
         }
 
         private void OnEditClicked(object sender, EventArgs e)

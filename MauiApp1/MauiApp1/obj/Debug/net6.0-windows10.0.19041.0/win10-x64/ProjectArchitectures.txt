@@ -1,0 +1,1 @@
+C:\Users\igrom\source\repos\RMP2\MauiApp1\MauiApp1\NotebookApp.csproj;x64
